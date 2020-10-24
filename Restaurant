@@ -1,0 +1,101 @@
+:-dynamic pedido/1.
+
+   menu(entrada,[ensalada_cesar,ensalada_camaron,crema_zanahoria,crema_elote]).
+   menu(primer_tiempo,[pasta,quesos,rollitos_vegetales]).
+   menu(plato_fuerte,[t_bone,chistorra,rib_eye,chorizo_argentino]).
+   menu(postre,[gelatina_de_frutas,arroz_con_leche,fresas_con_crema]).
+   menu(bebidas,[boing_mango,cocacola,sangria]).
+   menu(botanas,[dedos_de_queso,papas_fritas,nachos]).
+   pedido([]).
+
+   inicio:-
+           write('La Caverna Restaurant'),nl,
+           repeat,
+           muestraop(X),
+           X==8,
+           write('!Gracias,vuelva pronto!'),nl.
+muestraop(X):-
+
+              write('Escoja_una_opcion,_termina_con_un_punto.'),nl,
+              write('1.- Entrada'),nl,
+              write('2.- Primer_tiempo'),nl,
+              write('3.- Plato_fuerte'),nl,
+              write('4.- Postres'),nl,
+              write('5.- Bebidas'),nl,
+              write('6.- Botanas'),nl,
+              write('7.- Lista_del_Pedido'),nl,
+              write('8.- Salir'),nl,nl,
+              write('Opcion: '),nl,
+              read(X),
+              ejecutaop(X),!.
+ejecutaop(1):-
+              menu(entrada,Lista),
+              write('Las_opciones_de_entrada_son_:'),nl,
+              lista_vertical(Lista),
+              read(Platillo),
+              pedido(L_pedido),
+              add_final(Platillo,L_pedido,Lista2),
+              retract(pedido(_)),
+              assert(pedido(Lista2)),nl.
+ejecutaop(2):-
+              menu(primer_tiempo,Lista),
+              write('Las_opciones_de_primer_tiempo_son_:'),nl,
+              lista_vertical(Lista),
+              read(Platillo),
+              pedido(L_pedido),
+              add_final(Platillo,L_pedido,Lista2),
+              retract(pedido(_)),
+              assert(pedido(Lista2)).
+ejecutaop(3):-
+              menu(plato_fuerte,Lista),
+              write('Las_opciones_de_plato_fuerte_son_:'),nl,
+              lista_vertical(Lista),
+              read(Platillo),
+              pedido(L_pedido),
+              add_final(Platillo,L_pedido,Lista2),
+              retract(pedido(_)),
+              assert(pedido(Lista2)).
+ejecutaop(4):-
+              menu(postre,Lista),
+              write('Los_opciones_de_postres_son_:'),nl,
+              lista_vertical(Lista),
+              read(Platillo),
+              pedido(L_pedido),
+              add_final(Platillo,L_pedido,Lista2),
+              retract(pedido(_)),
+              assert(pedido(Lista2)).
+ejecutaop(5):-
+              menu(bebidas,Lista),
+              write('Las_bebidas_son_:'),nl,
+              lista_vertical(Lista),
+              read(Platillo),
+              pedido(L_pedido),
+              add_final(Platillo,L_pedido,Lista2),
+              retract(pedido(_)),
+              assert(pedido(Lista2)).
+ejecutaop(6):-
+              menu(botanas,Lista),
+              write('Las_opciones_de_botana_son_:'),nl,
+              lista_vertical(Lista),
+              read(Platillo),
+              pedido(L_pedido),
+              add_final(Platillo,L_pedido,Lista2),
+              retract(pedido(_)),
+              assert(pedido(Lista2)).
+ejecutaop(7):-
+              write('Su_pedido_hasta_el_momento_es_: '),
+              pedido(Listaf),nl,
+              lista_vertical(Listaf).
+ejecutaop(8):-
+              retract(pedido(_)),
+              assert(pedido([])).
+
+ejecutaop(_):-
+              write('Opcion_invalida,_intentalo_de_nuevo'),nl,nl.
+lista_vertical([]).
+lista_vertical([Head|Tail]):-
+                             write(Head),nl,
+                             lista_vertical(Tail).
+add_final(Plato,[],[Plato]).
+add_final(Plato,[Cabeza|Lista],[Cabeza|L1]):-
+add_final(Plato,Lista,L1).
